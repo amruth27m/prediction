@@ -4,6 +4,9 @@ from flask_restful import Api, Resource, reqparse
 app = Flask(__name__)
 api = Api(app)
 
+from predictor.views import predictor
+app.register_blueprint(predictor)
+
 users = [
     {
         "name": "Nicholas",
@@ -89,12 +92,21 @@ class PredictorModel(Resource):
     def get(self,req):
         return patientRecords, 200
 
+
+class PredictorValidator(Resource):
+    '''Stub for validator'''
+    def post(self,req):
+        return "Validation success",200
+
+
+
 @app.route('/')
 def index():
     return "Hello world"
 
-api.add_resource(User, "/user/<string:name>")
-api.add_resource(PredictorModel,"/predictor/<string:req>")
 
+api.add_resource(User, "/user/<string:name>")
+# api.add_resource(PredictorModel,"/predictor/predict")
+# api.add_resource(PredictorValidator,"/predictor/validator/")
 if __name__ == '__main__':
     app.run(debug=True)
