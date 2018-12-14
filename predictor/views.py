@@ -62,7 +62,7 @@ def validate():
     except (TypeError,ValueError) as error:
         response["validation"] = False
     finally:
-        return make_response(jsonify(response))
+        return make_response(jsonify(response)),200
 
 
 @predictor.route('/predictor/predict/',methods=['POST'])
@@ -78,4 +78,4 @@ def predict():
         respone["validation"] = False
         respone["predicted_dosage"] = False
     finally:
-        return make_response(jsonify(respone))
+        return make_response(jsonify(respone)),200
