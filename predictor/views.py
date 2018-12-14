@@ -48,6 +48,10 @@ def validateArgs(args):
 
     return True
 
+@predictor.route('/predictor/test/',methods=['GET'])
+def test():
+    return "test",200
+
 @predictor.route('/predictor/validate/',methods=['POST','GET'])
 def validate():
     parser = reqparse.RequestParser()
