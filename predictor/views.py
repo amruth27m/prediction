@@ -12,10 +12,10 @@ def index():
 def parseRequest(parser):
     for parameter in PATIENT_DATA_PARAMETERS:
         parser.add_argument(parameter)
-    return parser.parse_args()
 
-
-
+    args = parser.parse_args()
+    print(args)
+    return args
 
 @predictor.route('/predictor/test/',methods=['GET'])
 def test():
@@ -49,3 +49,18 @@ def predict():
         respone["predicted_dosage"] = False
     finally:
         return make_response(jsonify(respone)),200
+
+@predictor.route('/predictor/create/',methods=['POST'])
+def testCreate():
+    test = {
+        "gender": "Male",
+        "procedure": "MVR",
+        "age": 10,
+        "oldINRValue": 3.2,
+        "newINRValue": 3.2,
+        "oldDose": 5
+    }
+    from predictor.models import Patient
+    testPatient = Patient(test)
+    testPatient.save()
+    return 'success',200
