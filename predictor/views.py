@@ -17,7 +17,7 @@ def parseRequest(parser):
     print(args)
     return args
 
-@predictor.route('/predictor/test/',methods=['GET'])
+@predictor.route('/predictor/test/',methods=['GET','POST'])
 def test():
     return "test",200
 
