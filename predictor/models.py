@@ -1,28 +1,34 @@
-from app import db,app
+from app import db
+import enum
+from sqlalchemy import Enum,Column,Integer,Float
+from utils.constants import GenderConstants,ProcedureConstants
 
-class Age(db.Model):
-    '''patient's age'''
-    age = db.Coloumn(db.Integer,nullable=False)
-    _ageMax = 120
-    _ageMin = 23
+Column
+class Patient(db.Model):
 
-    def __init__(self,age):
-        self.age = age
+    __tablename__ = 'patient'
+
+    pk = db.Column(db.Integer,primary_key=True)
+    age = db.Column(db.Integer,nullable=False)
+    gender = db.Column('gender',Enum(GenderConstants),nullable=False)
+    oldINRValue = db.Column(db.Float,nullable=False)
+    procedure = db.Column('procedure',Enum(ProcedureConstants),nullable=False)
+    newINRValue = db.Column(db.Float,nullable=False)
+    oldDose = db.Column(db.Float,nullable=False)
+
+    def __init__(self,args):
+        self.age = args['age']
+        self.gender = args['gender']
+        self.oldINRValue = args['oldINRValue']
+        self.newINRValue = args['newINRValue']
+        self.oldDose = args['oldDose']
+        self.procedure = args['procedure']
 
     def save(self):
         db.session.add(self)
         db.session.commit()
 
-    @property
-    def ageMax(self):
-        return type(self)._ageMax
+if __name__ == '__main__':
+    db.create_all()
+    db.session.commit()
 
-    @property
-    def ageMin(self):
-        return type(self)._ageMin
-
-    @staticmethod
-    def validate(age):
-        if age <=Age.ageMax  or age > Age.ageMin:
-            raise ValueError("age must be between %d and %d" % (Age.ageMin, Age.ageMax))
-        return True

@@ -8,8 +8,8 @@ class AgeConstants(enum.Enum):
 
 
 class GenderConstants(enum.Enum):
-    Male = 0
-    Female = 1
+    Male = 1
+    Female = 0
     Other = 2
 
 

@@ -2,10 +2,10 @@ from flask import Blueprint,make_response,jsonify
 from flask_restful import Api,Resource,reqparse
 from utils.constants import PATIENT_DATA_PARAMETERS
 from utils.validator import validateArgs
-
+from machineLearning import mlPredictor
 predictor = Blueprint('predictor', __name__)
 
-@predictor.route('/predictor/home/',methods=['GET'])
+@predictor.route('/predictor/home/',methods=['POST','GET'])
 def index():
     return "Predictor Home stub",200
 
@@ -40,11 +40,14 @@ def predict():
     '''Stub for prediction'''
     parser = reqparse.RequestParser()
     args = parseRequest(parser)
+    print("TESTING")
     respone = {}
     try:
         respone["validation"] = validateArgs(args)
-        respone["predicted_dosage"] = True
+        print(respone["validation"])
+        respone["predicted_dosage"] = mlPredictor.predict(args).tolist()
     except (TypeError,ValueError) as error:
+        print(error)
         respone["validation"] = False
         respone["predicted_dosage"] = False
     finally:
